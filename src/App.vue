@@ -38,6 +38,10 @@ export default {
 			return true;
 		}
 	},
+	created () {
+		//console.log(this.$store);
+		this.$store.dispatch('getListPost', {})
+	},
 }
 </script>
 
