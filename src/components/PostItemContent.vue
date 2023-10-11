@@ -1,17 +1,25 @@
 <template>
     <div class="ass1-section__content">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptas voluptates magnam, odit quae aut vel
-            accusantium. Alias pariatur quidem, minus eaque officiis, sed ea repellendus tenetur ipsa inventore est
-            earum.</p>
+        <p>{{ post.post_content }}</p>
         <div class="ass1-section__image">
-            <a href="#"><img src="/dist/images/microphone-1209816_1920.jpg" alt=""></a>
+            <router-link 
+                :to="{ name: 'post-detail', params: { id: post.PID }}"
+            >
+                <img :src="post.url_image" alt="">
+            </router-link>
         </div>
     </div>
 </template>
 
 <script>
 export default {
-    name: 'post-item-content'
+    name: 'post-item-content',
+    props: {
+        post: {
+            type: Object,
+            default: null
+        },
+    },
 }
 </script>
 

@@ -1,15 +1,27 @@
 <template>
     <div class="ass1-section__list">
-        <post-item />
+        <post-item 
+            v-for="item in getListPost"
+            :key="item.PID"
+            v-bind:post="item"
+        />
         <button class="load-more ass1-btn"><span>Xem thêm</span></button>
     </div>
 </template>
 
 <script>
 import PostItem from './PostItem'
+
+import { mapGetters } from 'vuex';
+
 export default {
-  components: { PostItem },
-    name: 'post-list'
+    name: 'post-list',
+    components: { PostItem },
+    computed: {
+        ...mapGetters([
+            'getListPost',
+        ])
+    },
 }
 </script>
 

@@ -3,12 +3,14 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
-import moduleExample from './moduleExample';
+import post from './modulePost';
+import user from './moduleUser';
 
 const store = new Vuex.Store({
     strict: process.env.NODE_ENV !== 'production',
     modules: {
-        moduleExample: moduleExample
+        post: post,
+        user: user
     }
 })
 
