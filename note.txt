@@ -37,3 +37,5 @@ Token-based Authentication
 
     1. API Private
     2. API Public
+
+namespaced: true,//hạn chế việc đặt trùng tên giữa các module
