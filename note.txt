@@ -38,4 +38,9 @@ Token-based Authentication
     1. API Private
     2. API Public
 
-namespaced: true,//hạn chế việc đặt trùng tên giữa các module
+- namespaced: true,//hạn chế việc đặt trùng tên giữa các module
+
+- regeneratorRuntime is not defined
+    lỗi thiếu babel/polyfill (npm install --save @babel/polyfill)
+    https://stackoverflow.com/questions/33527653/babel-6-regeneratorruntime-is-not-defined
+    config lại webpack (entry:  ['@babel/polyfill', './src/main.js'],)
