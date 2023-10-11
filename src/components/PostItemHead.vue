@@ -24,6 +24,8 @@
 </template>
 
 <script>
+import moment from 'moment';
+
 export default {
     name: 'post-item-header',
     data() {
@@ -45,7 +47,8 @@ export default {
             return `/dist/images/avatar-02.png`
         },
         getDateNow() {
-            
+            moment.locale('vi');
+            return moment(this.post.time_added).fromNow();
         }
     },
     methods: {
