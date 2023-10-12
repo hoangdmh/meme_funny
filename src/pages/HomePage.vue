@@ -27,10 +27,12 @@ export default {
 
             if(tagIndex){
                 // dispatch action by category
-                this.$store.dispatch('getListPostByCategory', {tagIndex: tagIndex});
+                //this.getListPostHasPaging({tagIndex: tagIndex})
+                this.$store.dispatch('getListPostHasPaging', {tagIndex: tagIndex});
 
             }else {
                 // dispatch action by paging
+                //this.getListPostHasPaging({})
                 this.$store.dispatch('getListPostHasPaging', {});
             }
             //console.log('home-page  ', to);
@@ -39,7 +41,6 @@ export default {
     methods: {
         ...mapActions([
             'getListPostHasPaging',
-            'getListPostByCategory', //also supports payload `this.nameOfAction(amount)` 
         ])
     },
 }
