@@ -10,14 +10,37 @@
 </template>
 
 <script>
-import PostList from '../components/PostList.vue';
-import Sidebar from '../components/Sidebar.vue';
+import PostList from '../components/PostList';
+import Sidebar from '../components/Sidebar';
+
+import { mapActions } from 'vuex';
 
 export default {
     name: 'home-page',
     components: {
         PostList,
         Sidebar
+    },
+    watch:{
+        '$route' (to, from){
+            var tagIndex = to.query.tagIndex;
+
+            if(tagIndex){
+                // dispatch action by category
+                this.$store.dispatch('getListPostByCategory', {tagIndex: tagIndex});
+
+            }else {
+                // dispatch action by paging
+                this.$store.dispatch('getListPostHasPaging', {});
+            }
+            //console.log('home-page  ', to);
+        }
+    },
+    methods: {
+        ...mapActions([
+            'getListPostHasPaging',
+            'getListPostByCategory', //also supports payload `this.nameOfAction(amount)` 
+        ])
     },
 }
 </script>

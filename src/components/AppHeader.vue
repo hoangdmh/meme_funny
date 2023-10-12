@@ -25,8 +25,8 @@
 
 <script>
 import $ from "jquery";
-import AppNavigation from './AppNavigation.vue';
-import AppHeaderSearch from './AppHeaderSearch.vue';
+import AppNavigation from './AppNavigation';
+import AppHeaderSearch from './AppHeaderSearch';
 export default {
 	name: 'app-header',
 	components: { AppNavigation, AppHeaderSearch },
@@ -35,6 +35,10 @@ export default {
             // $(".ass1-header__nav").hide();
             $(this).parent().find(".ass1-header__nav").slideToggle(300, 'swing');
         });
+
+		$(".ass1-header__nav ul li > a").click(function(e){
+            $(this).parents(".ass1-header__nav").slideUp(300, 'swing');
+        })
 	},
 }
 </script>

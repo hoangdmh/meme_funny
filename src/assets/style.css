@@ -320,6 +320,13 @@ select.form-control:focus {
   min-width: 38px;
   width: 38px;
   height: 38px;
+  border-radius: 50%;
+}
+.ass1-avatar img {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 .ass1-media__btn {
   position: absolute;

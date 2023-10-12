@@ -44,3 +44,13 @@ Token-based Authentication
     lỗi thiếu babel/polyfill (npm install --save @babel/polyfill)
     https://stackoverflow.com/questions/33527653/babel-6-regeneratorruntime-is-not-defined
     config lại webpack (entry:  ['@babel/polyfill', './src/main.js'],)
+
+
+- Export import function from another file
+    In file have function
+        const functionName(){};
+        export {functionName}
+    In file user functionName
+        import { functionName } from './url_fileName';
+
+- watch router chỉ lắng nghe trên cùng component liên quan

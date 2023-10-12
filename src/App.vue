@@ -40,7 +40,7 @@ export default {
 	},
 	created () {
 		//console.log(this.$store);
-		this.$store.dispatch('getListPost', {})
+		this.$store.dispatch('getListPostHasPaging', {})
 	},
 }
 </script>
