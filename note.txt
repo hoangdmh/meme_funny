@@ -38,7 +38,9 @@ Token-based Authentication
     1. API Private
     2. API Public
 
+
 - namespaced: true,//hạn chế việc đặt trùng tên giữa các module
+
 
 - regeneratorRuntime is not defined
     lỗi thiếu babel/polyfill (npm install --save @babel/polyfill)
@@ -53,4 +55,10 @@ Token-based Authentication
     In file user functionName
         import { functionName } from './url_fileName';
 
+
 - watch router chỉ lắng nghe trên cùng component liên quan
+    watch: {
+        '$route'(to, from){
+            //logic
+        }
+    },

@@ -46,10 +46,6 @@ export default {
 			'isLoading',
 		])
 	},
-	created () {
-		//console.log(this.$store);
-		this.$store.dispatch('getListPostHasPaging', {})
-	},
 }
 </script>
 

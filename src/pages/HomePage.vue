@@ -25,19 +25,18 @@ export default {
         '$route' (to, from){
             var tagIndex = to.query.tagIndex;
 
-            if(tagIndex){
-                // dispatch action by category
-                //this.getListPostHasPaging({tagIndex: tagIndex})
-                this.$store.dispatch('getListPostHasPaging', {tagIndex: tagIndex});
+            //this.getListPostHasPaging({tagIndex: tagIndex})
+            this.$store.dispatch('getListPostHasPaging', {tagIndex: tagIndex});
 
-            }else {
-                // dispatch action by paging
-                //this.getListPostHasPaging({})
-                this.$store.dispatch('getListPostHasPaging', {});
-            }
-            //console.log('home-page  ', to);
+            // Nếu nhảy ra trang HomePage -> tagIndex - undefine
+            // Nếu nhảy ra trang HomePage co thêm query -> tagIndex có giá trị
         }
     },
+    
+	created () {
+		var tagIndex = this.$route.query.tagIndex;
+		this.$store.dispatch('getListPostHasPaging', {tagIndex})
+	},
     methods: {
         ...mapActions([
             'getListPostHasPaging',

@@ -1,7 +1,8 @@
 import axiosInstance from '../../plugins/axios';
+import { PAGE_SIZE, CURRENT_PAGE } from '../../constants';
 
 export default {
-    async getListPostHasPaging ({ commit }, { pagesize = 3, currPage = 1, tagIndex = null }) {
+    async getListPostHasPaging ({ commit }, { pagesize = PAGE_SIZE, currPage = CURRENT_PAGE, tagIndex = null }) {
         //console.log('getListPost to run!');
         commit('SET_LOADING', true);
         try {
@@ -14,7 +15,6 @@ export default {
             }
 
             if(tagIndex){
-
                 config.params.tagIndex = tagIndex;
                 var result = await axiosInstance.get('/post/getListByCategory.php', config);
             }else {
@@ -24,7 +24,13 @@ export default {
             commit('SET_LOADING', false);
 
             if(result.data && result.data.status == 200){
-                commit('SET_LIST_POST', result.data.posts)
+                if(currPage === 1){
+                    commit('SET_LIST_POST', result.data.posts)
+                }
+                if(currPage > 1){
+                    commit('PUSH_LIST_POST', result.data.posts);
+                    // console.log('result.data.posts', result.data.posts.length, result.data.posts);
+                }
             }
             //console.log(result);
         }catch(error){
@@ -33,24 +39,24 @@ export default {
         }
     },
 
-    async getListPostByCategory ({ commit }, { pagesize = 3, currPage = 1, tagIndex= 1 }) {
-        //console.log('getListPost to run!');
-        try {
-            // var result = await axiosInstance.get(`/post/getListPagination.php?pagesize=${pagesize}&currPage=${currPage}`);
-            var config = {
-                params: {
-                    pagesize,
-                    currPage,
-                    tagIndex
-                }
-            }
-            var result = await axiosInstance.get('/post/getListByCategory.php', config);
-            if(result.data && result.data.status == 200){
-                commit('SET_LIST_POST', result.data.posts)
-            }
-            //console.log(result);
-        }catch(error){
-            //console.log(error);
-        }
-    }
+    // async getListPostByCategory ({ commit }, { pagesize = 3, currPage = 1, tagIndex= 1 }) {
+    //     //console.log('getListPost to run!');
+    //     try {
+    //         // var result = await axiosInstance.get(`/post/getListPagination.php?pagesize=${pagesize}&currPage=${currPage}`);
+    //         var config = {
+    //             params: {
+    //                 pagesize,
+    //                 currPage,
+    //                 tagIndex
+    //             }
+    //         }
+    //         var result = await axiosInstance.get('/post/getListByCategory.php', config);
+    //         if(result.data && result.data.status == 200){
+    //             commit('SET_LIST_POST', result.data.posts)
+    //         }
+    //         //console.log(result);
+    //     }catch(error){
+    //         //console.log(error);
+    //     }
+    // }
 }
