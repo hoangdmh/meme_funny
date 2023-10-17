@@ -6,7 +6,7 @@ export default {
         state.listPost = [...state.listPost, ...data]
     },
     SET_POST_DETAIL(state, data){
-        console.log('Data Mutation', data);
+        // console.log('Data Mutation', data);
         state.postDetail = data;
     }
 }

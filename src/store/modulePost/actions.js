@@ -39,16 +39,19 @@ export default {
         }
     },
 
-    async getPostDetailById ({ commit }, postid) {
+    async getPostDetailById ({ commit, dispatch }, postid) {
         commit('SET_LOADING', true);
 
         try {
             var result = await axiosInstance.get(`/post/post.php?postid=${postid}`);            
-            commit('SET_LOADING', false);
-
+            
             if(result.data && result.data.status == 200){
+                //Call API user by id
+                var userID = result.data.data.post.USERID;
+                var resultUser = await dispatch('getUserById',userID)
+                commit('SET_LOADING', false);
                 commit('SET_POST_DETAIL', result.data.data)
-                console.log('Data action', result.data.data);
+                
                 return {
                     ok: true,
                     data: result.data.data,

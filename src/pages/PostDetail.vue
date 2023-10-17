@@ -61,7 +61,7 @@ export default {
     watch: {
         '$route'(to, from) {
             this.postId = to.params.id;
-            console.log('To =>', to.params.id);
+            //console.log('To =>', to.params.id);
             this.fetchDataPostDetail();
         }
     },
