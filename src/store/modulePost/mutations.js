@@ -4,6 +4,10 @@ export default {
     },
     PUSH_LIST_POST(state, data){
         state.listPost = [...state.listPost, ...data]
+    },
+    SET_POST_DETAIL(state, data){
+        console.log('Data Mutation', data);
+        state.postDetail = data;
     }
 }
 

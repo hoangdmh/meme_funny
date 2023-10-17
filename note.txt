@@ -62,3 +62,6 @@ Token-based Authentication
             //logic
         }
     },
+
+- created () {}
+    // xử lý trong trường hợp load lại trang lần đầu tiên

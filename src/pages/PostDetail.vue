@@ -53,6 +53,30 @@ import Sidebar from '../components/Sidebar'
 export default {
     name: 'post-detail',
     components: { Sidebar, PostItem, PostFeeling, PostCommentAdd, PostComments },
+    data() {
+        return {
+            postId: this.$route.params.id,
+        }
+    },
+    watch: {
+        '$route'(to, from) {
+            this.postId = to.params.id;
+            console.log('To =>', to.params.id);
+            this.fetchDataPostDetail();
+        }
+    },
+    created () {// xử lý trong trường hợp load lại trang lần đầu tiên
+        this.fetchDataPostDetail();
+    },
+    methods: {
+        fetchDataPostDetail() {
+            this.$store.dispatch('getPostDetailById', this.postId).then(res => { 
+                if(!res.ok){
+                    this.$router.push('/')
+                }
+            });
+        }
+    },
 }
 </script>
 
