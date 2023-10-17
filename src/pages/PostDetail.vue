@@ -1,9 +1,9 @@
 <template>
     <div class="row">
         <div class="col-lg-8">
-            <div class="ass1-section__post-detail section__list">
+            <div class="ass1-section__post-detail section__list" v-if="getListPostDetail && getListPostDetail.post">
                 <div class="ass1-section">
-                    <post-item />
+                    <post-item v-bind:post="getListPostDetail.post" />
                     <post-feeling />
                 </div>
                 <post-comment-add />
@@ -49,6 +49,7 @@ import PostFeeling from '../components/PostFeeling'
 import PostItem from '../components/PostItem'
 import Sidebar from '../components/Sidebar'
 
+import { mapGetters } from 'vuex';
 
 export default {
     name: 'post-detail',
@@ -67,6 +68,11 @@ export default {
     },
     created () {// xử lý trong trường hợp load lại trang lần đầu tiên
         this.fetchDataPostDetail();
+    },
+    computed: {
+        ...mapGetters([
+            'getListPostDetail',
+        ])
     },
     methods: {
         fetchDataPostDetail() {
