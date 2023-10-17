@@ -4,7 +4,17 @@
             <div class="ass1-section__post-detail section__list" v-if="getListPostDetail && getListPostDetail.post">
                 <div class="ass1-section">
                     <post-item v-bind:post="getListPostDetail.post" />
-                    <post-feeling />
+
+                    <ul class="category">
+                        <li v-for="item in getListPostDetail.categories" :key="item.TAG_ID">
+                            <router-link 
+                                :to="getLinkCategory(item)"
+                            >
+                                {{ item.tag_value }}
+                            </router-link>
+                        </li>
+                    </ul>
+                    <!-- <post-feeling /> -->
                 </div>
                 <post-comment-add />
                 <post-comments />
@@ -50,6 +60,7 @@ import PostItem from '../components/PostItem'
 import Sidebar from '../components/Sidebar'
 
 import { mapGetters } from 'vuex';
+import {removeVietnameseFromString} from '../helpers';
 
 export default {
     name: 'post-detail',
@@ -81,11 +92,26 @@ export default {
                     this.$router.push('/')
                 }
             });
+        },
+        getLinkCategory(category) {
+            return {
+                name: 'home-page', 
+                query: {
+                    text: removeVietnameseFromString(category.tag_value), 
+                    tagIndex: category.tag_index 
+                }
+            }
         }
     },
 }
 </script>
 
-<style>
-
-</style>
+<style lang="css" scoped>
+    .category {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .category li {
+        padding: 5px 10px;
+    }
+</style>>
