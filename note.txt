@@ -30,14 +30,6 @@ Không có header
 
 =========================================
 
-Token-based Authentication
-    - Json Web Tokens
-    - A Front End Auth Solution
-    (Vue Router - VueX - Axios)
-
-    1. API Private
-    2. API Public
-
 
 - namespaced: true,//hạn chế việc đặt trùng tên giữa các module
 
@@ -48,7 +40,7 @@ Token-based Authentication
     config lại webpack (entry:  ['@babel/polyfill', './src/main.js'],)
 
 
-- Export import function from another file
+- Export, import a function from another file
     In file have function
         const functionName(){};
         export {functionName}
@@ -65,3 +57,16 @@ Token-based Authentication
 
 - created () {}
     // xử lý trong trường hợp load lại trang lần đầu tiên
+
+- JSON Web Token
+    xxxxx.yyyyy.zzzzz
+    header.payload.signature
+    Cơ chế: Client gửi 1 request xác thực người dùng lên server, 
+            server xác thực request đó và gửi về client 1 token (JWT)
+            Client sử dụng token đó để truy cập vào API
+    
+
+- keep login 
+    Sau khi login ta có token của user đó, nhưng load lại trang thì mất token 
+    Vì vậy dùng localStorage để lưu token đó lại, và đồng thời lưu token và user đó vào lại state của user
+    Khi load lại trang trong thằng App gọi tới action checkLogin
