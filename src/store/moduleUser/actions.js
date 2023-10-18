@@ -1,4 +1,5 @@
 import axiosInstance from '../../plugins/axios';
+import {parseJwt} from '../../helpers';
 
 export default {
     // increment ({ commit }) {
@@ -59,6 +60,38 @@ export default {
 
         } catch (error) {
             commit('SET_LOADING', false);
+            return {
+                ok: false,
+                error: error.message
+            }
+        }
+    },
+    async checkLogin({commit, dispatch}){
+        try {
+            var token = localStorage.getItem('ACCESS_TOKEN');
+            var userObj = parseJwt(token);
+
+            if(userObj){
+                var resultUserObj = await dispatch('getUserById', userObj.id);
+                if(resultUserObj.ok){
+                    var data = {
+                        token: token,
+                        user: resultUserObj.data
+                    }
+                    commit('SET_LOGIN_INFO', data);
+                    return {
+                        ok: true,
+                        error: null
+                    }
+                }
+            }
+            return {
+                ok: false
+            }
+
+            console.log('resultUserObj', resultUserObj);
+
+        } catch (error) {
             return {
                 ok: false,
                 error: error.message

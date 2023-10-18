@@ -27,6 +27,9 @@ export default {
 		 
 		}
 	},
+	created () {
+		this.$store.dispatch('checkLogin');
+	},
 	computed: {
 		isRenderHeader(){
 			var arrRouter = ['login', 'register'];
