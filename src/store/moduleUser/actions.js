@@ -27,5 +27,42 @@ export default {
                 error: error.message
             }
         }
+    },
+    async login({commit}, {email = '', password = ''}){
+        commit('SET_LOADING', true);
+
+        try {
+            var data = {
+                email: email,
+                password: password
+            }
+
+            var result = await axiosInstance.post('/member/login.php', data);
+            commit('SET_LOADING', false);
+
+            if(result.data && result.data.status === 200){
+                // console.log('result =>', result.data);
+                commit('SET_USER_INFO', result.data.user);
+                commit('SET_LOGIN_INFO', result.data);
+
+                return {
+                    ok: true,
+                    data: result.data,
+                    error: null,
+                }
+            }else {
+                return {
+                    ok: false,
+                    error: result.data.error
+                }
+            }
+
+        } catch (error) {
+            commit('SET_LOADING', false);
+            return {
+                ok: false,
+                error: error.message
+            }
+        }
     }
 }

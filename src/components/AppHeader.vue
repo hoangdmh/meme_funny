@@ -14,9 +14,7 @@
 				</router-link>
 
 
-				<a href="dang-nhap.html" class="ass1-header__btn-upload ass1-btn">
-					Login
-				</a>
+				<router-link to="/login" class="ass1-header__btn-upload ass1-btn">Login</router-link>
 
 			</div>
 		</div>

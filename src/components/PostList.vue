@@ -51,7 +51,7 @@ export default {
                 currPage: this.currPage,
                 tagIndex: this.tagIndex
             }
-            console.log(obj);
+            // console.log(obj);
             this.$store.dispatch('getListPostHasPaging', obj);
         }
     },
