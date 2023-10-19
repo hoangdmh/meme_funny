@@ -21,7 +21,7 @@
 						<img :src="getAvatar" alt="" class="ass1-section__avatar ass1-avatar mr-2">
 					</span> 
 					<span>{{ currentUser.email }}</span>
-					<span class="logout ass1-header__btn-upload ass1-btn">Logout</span>
+					<span class="logout ass1-header__btn-upload ass1-btn" @click="handleLogout">Logout</span>
 				</div>
 
 			</div>
@@ -60,12 +60,20 @@ export default {
             return `/dist/images/avatar-02.png`
         },
 	},
+	methods: {
+		handleLogout() {
+			this.$store.dispatch('logout').then(res => {
+				this.$router.push('/login')
+			});
+		}
+	},
 }
 </script>
 
 <style scoped>
 	.avatar {
 		position: relative;
+		border-bottom: none;
 	}
 	.logout {
 		position: absolute;

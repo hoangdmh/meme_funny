@@ -97,5 +97,9 @@ export default {
                 error: error.message
             }
         }
+    },
+    async logout({commit}){
+        commit('SET_LOGOUT');
+        return null;
     }
 }

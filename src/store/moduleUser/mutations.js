@@ -12,5 +12,10 @@ export default {
         localStorage.setItem('ACCESS_TOKEN', data.token);
         state.ACCESS_TOKEN = data.token;
         state.currentUser = data.user;
+    },
+    SET_LOGOUT(state){
+        state.ACCESS_TOKEN = '',
+        state.currentUser = null;
+        localStorage.removeItem('ACCESS_TOKEN');
     }
 }  
