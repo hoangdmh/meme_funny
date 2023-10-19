@@ -29,7 +29,7 @@ export default {
             }
         }
     },
-    async login({commit}, {email = '', password = ''}){
+    async login({commit, dispatch}, {email = '', password = ''}){
         commit('SET_LOADING', true);
 
         try {
@@ -46,6 +46,7 @@ export default {
                 commit('SET_USER_INFO', result.data.user);
                 commit('SET_LOGIN_INFO', result.data);
 
+                dispatch('getListPostByUserId', result.data.user.USERID);
                 return {
                     ok: true,
                     data: result.data,
@@ -72,9 +73,18 @@ export default {
             var userObj = parseJwt(token);
 
             if(userObj){
-                var resultUserObj   = await dispatch('getUserById', userObj.id);
-                var resultPostUser  = await dispatch('getListPostByUserId', userObj.id);
+                // var resultUserObj   = await dispatch('getUserById', userObj.id);
+                // var resultPostUser  = await dispatch('getListPostByUserId', userObj.id);
 
+                // code của resultUserObj chạy hết 3s
+                // code của resultPostUser chạy hết 4s
+                // Tổng time cần hết 7s, nhưng 2 lần call api đó có thể chạy song song
+                // Vì vậy dùng Promise.all() để giải quyết vấn đề code chạy đồng thời song song
+
+                var promiseUserObj   = dispatch('getUserById', userObj.id);
+                var promisePostUser  = dispatch('getListPostByUserId', userObj.id);
+
+                var [resultUserObj, resultPostUser] = await Promise.all([promiseUserObj, promisePostUser]);
 
 
                 if(resultUserObj.ok && resultPostUser.ok){
