@@ -72,8 +72,12 @@ export default {
             var userObj = parseJwt(token);
 
             if(userObj){
-                var resultUserObj = await dispatch('getUserById', userObj.id);
-                if(resultUserObj.ok){
+                var resultUserObj   = await dispatch('getUserById', userObj.id);
+                var resultPostUser  = await dispatch('getListPostByUserId', userObj.id);
+
+
+
+                if(resultUserObj.ok && resultPostUser.ok){
                     var data = {
                         token: token,
                         user: resultUserObj.data
@@ -89,7 +93,7 @@ export default {
                 ok: false
             }
 
-            console.log('resultUserObj', resultUserObj);
+            
 
         } catch (error) {
             return {
@@ -101,5 +105,43 @@ export default {
     async logout({commit}){
         commit('SET_LOGOUT');
         return null;
+    },
+    async getListPostByUserId({commit}, userid){
+        try {
+            let config = {
+                params: {
+                    userid: userid,
+                },
+                headers: {
+                    'accept': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`
+                    // 'Authorization': 'Bearer ' + localStorage.getItem('ACCESS_TOKEN')
+                }
+            }
+            //console.log('config', config);
+            var result = await axiosInstance.get('/post/getListPostUserID.php', config);
+            console.log('getListPostByUserId', result.data);
+            if(result.data.status === 200) {
+                var dataObj = {
+                    userid: userid,
+                    post: result.data.posts
+                }
+                commit('SET_USER_POST', dataObj)
+                return {
+                    ok: true, 
+                    error: null
+                }
+            }
+            return {
+                ok: false, 
+                error: null
+            }
+
+        } catch (error) {
+            return {
+                ok: false, 
+                error: error.message
+            }
+        }
     }
 }

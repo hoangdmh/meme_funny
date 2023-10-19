@@ -4,7 +4,7 @@ export default {
     // increment (state) {
     //     state.count++
     // }
-    SET_USER_INFO(state, userid){
+    SET_USER_INFO(state, userid){//lưu vào state dạng object key value
         //console.log('Mutation User',userid);
         Vue.set(state.users, userid.USERID, userid)
     },
@@ -17,5 +17,8 @@ export default {
         state.ACCESS_TOKEN = '',
         state.currentUser = null;
         localStorage.removeItem('ACCESS_TOKEN');
-    }
+    },
+    SET_USER_POST(state, {userid, post}){//lưu vào state dạng object key value
+        Vue.set(state.posts, userid, post)
+    },
 }  

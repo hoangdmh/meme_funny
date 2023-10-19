@@ -1,11 +1,16 @@
 export default {
     ACCESS_TOKEN: '',
     currentUser: null,//login
-    users: {}
+    users: {},// lưu dạng object key value
+    posts: {}// lưu dạng object key value
 }
 
 /*
 users: {
+    [userid]: [value -> dữ liệu của user đó]
+}
+
+posts: {
     [userid]: [value -> dữ liệu của user đó]
 }
 
