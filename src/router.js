@@ -12,6 +12,8 @@ import PostUpload from './pages/PostUpload'
 import UserPage from './pages/UserPage'
 import UserProfile from './pages/UserProfile'
 
+import {ifNotAuthenticated, ifAuthenticated} from './plugins/authenticate';
+
 const routes = [
     { 
         path: '/', 
@@ -22,16 +24,19 @@ const routes = [
         path: '/login', 
         name: 'login',
         component: Login,
+        beforeEnter: ifNotAuthenticated
     },
     { 
         path: '/register', 
         name: 'register',
         component: Register,
+        beforeEnter: ifNotAuthenticated
     },
     { 
         path: '/user/:id', 
         name: 'user-page',
         component: UserPage,
+        beforeEnter: ifAuthenticated
     },
     { 
         path: '/user/:id/profile', 
