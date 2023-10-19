@@ -14,7 +14,15 @@
 				</router-link>
 
 
-				<router-link to="/login" class="ass1-header__btn-upload ass1-btn">Login</router-link>
+				<router-link v-if="!isLogin" to="/login" class="ass1-header__btn-upload ass1-btn">Login</router-link>
+
+				<div v-else class="avatar ass1-section__head pb-0">
+					<span class="ass1-section__avatar ass1-avatar mr-2">
+						<img :src="getAvatar" alt="" class="ass1-section__avatar ass1-avatar mr-2">
+					</span> 
+					<span>{{ currentUser.email }}</span>
+					<span class="logout ass1-header__btn-upload ass1-btn">Logout</span>
+				</div>
 
 			</div>
 		</div>
@@ -25,6 +33,8 @@
 import $ from "jquery";
 import AppNavigation from './AppNavigation';
 import AppHeaderSearch from './AppHeaderSearch';
+import { mapGetters, mapState } from 'vuex';
+
 export default {
 	name: 'app-header',
 	components: { AppNavigation, AppHeaderSearch },
@@ -38,9 +48,36 @@ export default {
             $(this).parents(".ass1-header__nav").slideUp(300, 'swing');
         })
 	},
+	computed: {
+		...mapGetters(['isLogin']),
+		...mapState({
+            currentUser: state => state.user.currentUser,
+        }),
+		getAvatar(){
+            if(this.currentUser.profilepicture){
+                return this.currentUser.profilepicture
+            }
+            return `/dist/images/avatar-02.png`
+        },
+	},
 }
 </script>
 
-<style>
-
+<style scoped>
+	.avatar {
+		position: relative;
+	}
+	.logout {
+		position: absolute;
+		top: 100%;
+		left: 50%;
+		transform: translate(-50%, 0);
+		cursor: pointer;
+		display: none;
+		transition: all 0.3s ease;
+		z-index: 99;
+	}
+	.avatar:hover .logout {
+		display: flex;
+	}
 </style>
