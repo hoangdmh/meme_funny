@@ -16,11 +16,13 @@
 
 				<router-link v-if="!isLogin" to="/login" class="ass1-header__btn-upload ass1-btn">Login</router-link>
 
-				<div v-else class="avatar ass1-section__head pb-0">
+				<div v-else-if="currentUser && isLogin" class="avatar ass1-section__head pb-0">
 					<span class="ass1-section__avatar ass1-avatar mr-2">
 						<img :src="getAvatar" alt="" class="ass1-section__avatar ass1-avatar mr-2">
 					</span> 
-					<span>{{ currentUser.email }}</span>
+					<router-link :to="{ name: 'user-page', params: { id: currentUser.USERID }}" >
+						<span>{{ currentUser.email }}</span>
+					</router-link>
 					<span class="logout ass1-header__btn-upload ass1-btn" @click="handleLogout">Logout</span>
 				</div>
 

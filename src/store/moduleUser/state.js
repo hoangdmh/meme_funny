@@ -1,5 +1,5 @@
 export default {
-    ACCESS_TOKEN: '',
+    ACCESS_TOKEN: localStorage.getItem('ACCESS_TOKEN'),
     currentUser: null,//login
     users: {},// lưu dạng object key value
     posts: {}// lưu dạng object key value
