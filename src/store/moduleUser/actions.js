@@ -153,5 +153,44 @@ export default {
                 error: error.message
             }
         }
+    },
+    async register({commit, dispatch}, data){
+        commit('SET_LOADING', true);
+        try {
+            // console.log('Action data =>', data);
+            var dataRegister = {
+                fullname: data.fullname,
+                email: data.email,
+                password: data.password,
+                repassword: data.repassword
+            }
+            var result = await axiosInstance.post('/member/register.php', dataRegister);
+            commit('SET_LOADING', false);
+
+            if(result.data && result.data.code === 200){
+                console.log('Action result =>', result);
+                commit('SET_USER_INFO', result.data.user);
+                commit('SET_LOGIN_INFO', result.data);
+                dispatch('getListPostByUserId', result.data.user.USERID);
+
+                return {
+                    ok: true,
+                    data: result.data,
+                    error: null,
+                }
+            }else {
+                return {
+                    ok: false,
+                    error: result.data.error
+                }
+            }
+
+        } catch (error) {
+            commit('SET_LOADING', false);
+            return {
+                ok: false, 
+                error: error.message
+            }
+        }
     }
 }
