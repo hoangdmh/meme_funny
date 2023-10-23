@@ -1,6 +1,6 @@
 <template>
     <div>
-        <user-page-infor v-bind:userInfo="userInfo"/>
+        <user-page-infor v-bind:countPost="countPostOfUser" v-bind:userInfo="userInfo"/>
 
         <div class="ass1-section__wrap row ass1-section__isotope-init">
             <div class="user-page  ass1-section__items col-lg-12">
@@ -38,6 +38,14 @@ export default {
     },
     created () {
         this.fetchAllData();
+    },
+    computed: {
+        countPostOfUser(){
+            if(this.listPostOfUser && this.listPostOfUser.length){
+                return this.listPostOfUser.length;
+            }
+            return 0;
+        }
     },
     methods: {
         async fetchAllData(){

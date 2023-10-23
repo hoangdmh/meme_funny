@@ -22,7 +22,7 @@
                     </template>
                 </div>
                 <div class="ass1-head-user__info-statistic">
-                    <div class="ass1-btn-icon"><i class="icon-Post"></i><span>Bài viết: {{ userInfo.profileviews }}</span></div>
+                    <div class="ass1-btn-icon"><i class="icon-Post"></i><span>Bài viết: {{ countPost }}</span></div>
                     <div class="ass1-btn-icon"><i class="icon-Followers"></i><span>Theo dõi: {{ userInfo.yourviewed }}</span></div>
                     <div class="ass1-btn-icon"><i class="icon-Following"></i><span>Đang theo dõi: {{ userInfo.youviewed }}</span></div>
                 </div>
@@ -42,6 +42,10 @@ export default {
             type: Object,
             default: null
         },
+        countPost: {
+            type: Number,
+            default: null
+        }
     },
     computed: {
         ...mapState({
