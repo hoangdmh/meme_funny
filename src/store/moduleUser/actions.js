@@ -130,7 +130,7 @@ export default {
             }
             //console.log('config', config);
             var result = await axiosInstance.get('/post/getListPostUserID.php', config);
-            console.log('getListPostByUserId', result.data);
+            //console.log('getListPostByUserId', result.data);
             if(result.data.status === 200) {
                 var dataObj = {
                     userid: userid,
@@ -139,6 +139,7 @@ export default {
                 commit('SET_USER_POST', dataObj)
                 return {
                     ok: true, 
+                    data: result.data.posts,
                     error: null
                 }
             }
