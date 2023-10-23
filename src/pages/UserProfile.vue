@@ -5,7 +5,7 @@
 
             <div class="ass1-login__form">
                 <div class="avatar">
-                    <img src="/dist/images/avatar-01.png" alt="">
+                    <img :src="getAvatar" alt="">
                 </div>
                 <form action="#" v-if="currentUser" v-on:submit.prevent="handleEditProfile">
                     <input 
@@ -24,7 +24,9 @@
                         <option value="nu">Nữ</option>
                     </select>
 
-                    <input type="file" name="avatar" placeholder="Ảnh đại diện" class="form-control">
+                    <input 
+                        v-on:change="uploadAvatar"
+                        type="file" name="avatar" placeholder="Ảnh đại diện" class="form-control">
 
                     <textarea 
                         class="form-control" cols="30" rows="5" placeholder="Mô tả ngắn ..."
@@ -52,7 +54,10 @@ export default {
             fullname: '',
             gender: '',
             description: '',
-            avatarFile: null
+            avatar: {
+                objFile: null,
+                base64URL: ''
+            }
         }
     },
     watch: {
@@ -67,7 +72,14 @@ export default {
     computed: {
         ...mapGetters([
             'currentUser',
-        ])
+        ]),
+        getAvatar(){
+            if(this.currentUser && this.avatar.base64URL){
+                return this.avatar.base64URL
+            }else {
+                return this.currentUser.profilepicture;
+            }
+        }
     },
     methods: {
         checkIsCurrentUser() {
@@ -81,6 +93,28 @@ export default {
             console.log('fullname', this.fullname);
             console.log('gender', this.gender);
             console.log('description', this.description);
+        },
+        uploadAvatar(e){
+            if(e.target.files && e.target.files.length){
+                const fileAvatar = e.target.files[0];
+                console.log('fileAvatar', fileAvatar);
+
+                let reader = new FileReader();
+                reader.addEventListener("load",() => {
+                        // convert image file to base64 string
+                        let previewUrl = reader.result;
+                        // console.log('previewUrl', previewUrl);
+                        this.avatar.objFile = fileAvatar;
+                        this.avatar.base64URL = previewUrl;
+                    },
+                    false,
+                );
+
+                if (fileAvatar) {
+                    reader.readAsDataURL(fileAvatar);
+                }
+            }
+
         }
     },
 }
