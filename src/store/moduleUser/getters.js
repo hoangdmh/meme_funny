@@ -13,6 +13,9 @@ export default {
             return false
         }
     },
+    currentUser: state =>{
+        return state.currentUser
+    },
     getListPostOfCurrentUser: state => {
         if(state.currentUser){
             let userCurrent = state.currentUser.USERID

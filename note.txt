@@ -70,3 +70,23 @@ Không có header
     Sau khi login ta có token của user đó, nhưng load lại trang thì mất token 
     Vì vậy dùng localStorage để lưu token đó lại, và đồng thời lưu token và user đó vào lại state của user
     Khi load lại trang trong thằng App gọi tới action checkLogin
+
+- API private thì phải truyền vào header 
+    VD: let config = {
+            params: {
+                userid: userid,
+            },
+            headers: {
+                'accept': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`
+                // 'Authorization': 'Bearer ' + localStorage.getItem('ACCESS_TOKEN')
+            }
+        }
+
+- Ràng buộc dữ liệu 2 chiều input
+    v-bind:value="strSearch"
+    v-on:input="handleSearch"
+
+- focus pointer 
+    ref="searchFocus"
+    this.$refs.searchFocus.focus();
