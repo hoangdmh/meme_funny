@@ -3,11 +3,11 @@
         <div class="ass1-login__content">
             <p>Profile</p>
 
-            <div class="ass1-login__form">
+            <div class="ass1-login__form" v-if="currentUser">
                 <div class="avatar">
                     <img :src="getAvatar" alt="">
                 </div>
-                <form action="#" v-if="currentUser" v-on:submit.prevent="handleEditProfile">
+                <form action="#" v-on:submit.prevent="handleEditProfile">
                     <input 
                         type="text" class="form-control" placeholder="Tên ..." required=""
                         v-bind:value="currentUser.fullname"
@@ -89,10 +89,29 @@ export default {
                 }
             }
         },
-        handleEditProfile(e){
-            console.log('fullname', this.fullname);
-            console.log('gender', this.gender);
-            console.log('description', this.description);
+        handleEditProfile(){
+            if(!this.gender) this.gender = this.currentUser.gender;
+            if(!this.fullname) this.fullname = this.currentUser.fullname;
+            if(!this.description) this.description = this.currentUser.description;
+            
+            if(this.fullname && this.gender && this.description){
+                let data = {
+                    fullname: this.fullname,
+                    gender: this.gender,
+                    description: this.description,
+                }
+                if(this.avatar.objFile){
+                    data.objFile = this.avatar.objFile;
+                }
+                // console.log('data => ', data);
+                this.$store.dispatch('updateProfile', data).then(res => {
+                    if(res.ok){
+                        alert('Update profile success!')
+                    }else {
+                        alert(res.error)
+                    }
+                });
+            }
         },
         uploadAvatar(e){
             if(e.target.files && e.target.files.length){

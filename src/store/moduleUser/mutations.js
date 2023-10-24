@@ -21,4 +21,8 @@ export default {
     SET_USER_POST(state, {userid, post}){//lưu vào state dạng object key value
         Vue.set(state.posts, userid, post)
     },
+    SET_CURRENT_USER(state, user){
+        // console.log('Mutation SET_CURRENT_USER', user);
+        state.currentUser = user
+    },
 }  
