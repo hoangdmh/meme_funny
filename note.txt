@@ -90,3 +90,6 @@ Không có header
 - focus pointer 
     ref="searchFocus"
     this.$refs.searchFocus.focus();
+
+- Search page 
+    Logic nhập vào text search thì chuyển hướng đến page Search.vue thông qua query
