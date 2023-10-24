@@ -169,7 +169,7 @@ export default {
             commit('SET_LOADING', false);
 
             if(result.data && result.data.code === 200){
-                console.log('Action result =>', result);
+                //console.log('Action result =>', result);
                 commit('SET_USER_INFO', result.data.user);
                 commit('SET_LOGIN_INFO', result.data);
                 dispatch('getListPostByUserId', result.data.user.USERID);
@@ -234,6 +234,40 @@ export default {
                 }
             }
 
+        } catch (error) {
+            commit('SET_LOADING', false);
+            return {
+                ok: false, 
+                error: error.message
+            }
+        }
+    },
+    async changePassword({commit}, data){
+        commit('SET_LOADING', true);
+
+        try {
+            let config = {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`,
+                    'Content-Type': 'application/json' 
+                }
+            }
+            
+            var result = await axiosInstance.post('/member/password.php', data, config);
+            commit('SET_LOADING', false);
+            //console.log('changePassword result =>', result);
+
+            if(result.data.status === 200){
+                return {
+                    ok: true,
+                    message: result.data.message
+                }
+            }else {
+                return {
+                    ok: false, 
+                    error: result.data.error
+                }
+            }
         } catch (error) {
             commit('SET_LOADING', false);
             return {
