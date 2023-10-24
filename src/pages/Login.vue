@@ -45,7 +45,7 @@ export default {
             }
             
             this.$store.dispatch('login', data).then(res => {
-                console.log('res from handLogin =>', res);
+                //console.log('res from handLogin =>', res);
                 if(!res.ok){
                     if(typeof res.ok == 'string' ){
                         alert(res.error)

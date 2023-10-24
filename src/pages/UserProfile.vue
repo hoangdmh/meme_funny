@@ -116,7 +116,7 @@ export default {
         uploadAvatar(e){
             if(e.target.files && e.target.files.length){
                 const fileAvatar = e.target.files[0];
-                console.log('fileAvatar', fileAvatar);
+                //console.log('fileAvatar', fileAvatar);
 
                 let reader = new FileReader();
                 reader.addEventListener("load",() => {
