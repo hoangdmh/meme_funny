@@ -32,7 +32,7 @@
         <div class="col-lg-4">
             <aside class="ass1-aside ass1-aside__edit-post">
                 <div>
-                    <a href="#" class="ass1-btn">Đăng bài</a>
+                    <button class="ass1-btn" @click="handleUploadPost">Đăng bài</button>
                 </div>
                 <div class="ass1-aside__edit-post-head">
                     <span style="display: block; width: 100%; margin-bottom: 10px;">Chọn danh mục</span>
@@ -64,6 +64,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import { checkImageURL, checkImageFile } from '../helpers';
 
 export default {
     name: 'post-upload',
@@ -97,13 +98,18 @@ export default {
         },
         handleUploadImage(e){
             const fileImage = e.target.files[0];
-            // console.log('fileImage', fileImage);
+
+            //Check file
+            let check = checkImageFile(fileImage);
+
+            if(!check){
+                alert('File không hợp lệ?')
+                return 
+            }
 
             let reader = new FileReader();
             reader.addEventListener("load",() => {
-                    // convert image file to base64 string
                     let previewUrl = reader.result;
-                    // console.log('previewUrl', previewUrl);
                     this.obj_image.objFile = fileImage;
                     this.obj_image.base64URL = previewUrl;
                 },
@@ -112,6 +118,42 @@ export default {
 
             if (fileImage) {
                 reader.readAsDataURL(fileImage);
+            }
+        },
+        handleUploadPost(){
+            var strCategory = this.category.join(",");
+
+            if(this.post_content && this.category){
+                if(this.url_image || this.obj_image.objFile ){
+                    let data = {
+                        url_image: this.url_image,
+                        post_content: this.post_content,
+                        category: strCategory,
+                    }
+
+                    if(this.obj_image.objFile){
+                        data.obj_image = this.obj_image.objFile;
+                    }
+                    
+                    this.$store.dispatch('createNewPost', data).then(res => {
+                        if(res.ok){
+                            alert('Create post success!');
+                            this.obj_image = {
+                                objFile: null,
+                                base64URL: '',
+                            };
+                            this.url_image = '';
+                            this.post_content = '';
+                            this.category = [];
+                        }else {
+                            alert(res.error)
+                        }
+                    });
+                }else {
+                    alert('Vui lòng chọn link bài post')
+                }
+            }else {
+                alert('Vui lòng ngập đầy đủ nội dung')
             }
         }
     },

@@ -94,5 +94,52 @@ export default {
                 error: error
             }
         }
+    },
+
+    async createNewPost({commit}, {obj_image = null, url_image = '', post_content = '', category = '' }){
+        commit('SET_LOADING', true);
+
+        try {
+            let bodyFormData = new FormData();
+
+            bodyFormData.append('url_image', url_image);
+            bodyFormData.append('post_content', post_content);
+            bodyFormData.append('category', category);
+
+            //for avatar image
+            if(obj_image){
+                bodyFormData.append('obj_image', obj_image);
+            }
+
+            let config = {
+                headers: {
+                    'accept': 'application/json',
+                    'Authorization': `Bearer ${localStorage.getItem('ACCESS_TOKEN')}`,
+                    'Content-Type': 'multipart/form-data' 
+                }
+            }
+
+            var result = await axiosInstance.post('/post/addNew.php', bodyFormData, config);
+            commit('SET_LOADING', false);
+            console.log('createPost =>', result);
+
+            if(result.data.status === 200){
+                return {
+                    ok: true,
+                    message: result.data.message
+                }
+            }else {
+                return {
+                    ok: false, 
+                    error: result.data.error
+                }
+            }
+        } catch (error) {
+            commit('SET_LOADING', false);
+            return {
+                ok: false, 
+                error: error.message
+            }
+        }
     }
 }
