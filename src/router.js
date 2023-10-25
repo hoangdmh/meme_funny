@@ -53,7 +53,8 @@ const routes = [
     { 
         path: '/post-detail/:id', 
         name: 'post-detail',
-        component: PostDetail
+        component: PostDetail,
+        beforeEnter: ifAuthenticated
     },
     {
         path: '/upload',

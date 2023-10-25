@@ -106,7 +106,8 @@ export default {
                 // console.log('data => ', data);
                 this.$store.dispatch('updateProfile', data).then(res => {
                     if(res.ok){
-                        alert('Update profile success!')
+                        alert('Update profile success!');
+                        this.$router.push('/');
                     }else {
                         alert(res.error)
                     }

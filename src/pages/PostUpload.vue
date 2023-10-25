@@ -6,18 +6,26 @@
                 <div class="ass1-section__content">
                     <form action="#">
                         <div class="form-group">
-                            <input type="text" class="form-control ttg-border-none" placeholder="https://">
+                            <input 
+                                v-model="url_image" 
+                                type="text" class="form-control ttg-border-none" placeholder="https://">
                         </div>
                         <div class="form-group">
-                            <textarea type="text" class="form-control ttg-border-none" placeholder="Mô tả ..."></textarea>
+                            <textarea 
+                                v-model="post_content" 
+                                type="text" class="form-control ttg-border-none" placeholder="Mô tả ..."></textarea>
                         </div>
                     </form>
-                    <div class="ass1-section__image">
-                        <a href="#"><img src="/dist/images/no_image_available.jpg" alt="default"></a>
+                    <div class="ass1-section__image" v-on:click="uploadImage">
+                        <a href="#"><img :src="renderImage" alt="default"></a>
                     </div>
-                    <a href="https://memeful.com/" target="_blank" class="ass1-btn ass1-btn-meme">Chế ảnh từ
-                        meme</a>
-                    <a href="#" class="ass1-btn ass1-btn-meme">Đăng ảnh từ máy tính</a>
+                    <a href="https://imgflip.com/memegenerator" target="_blank" class="ass1-btn ass1-btn-meme">Chế ảnh từ imgflip</a>
+                    
+                    <input
+                        v-on:change="handleUploadImage"
+                        ref="fileAvatar"
+                        type="file" name="avatar" class="form-control" hidden>
+                    <button v-on:click="uploadImage" class="ass1-btn ass1-btn-meme">Đăng ảnh từ máy tính</button>
                 </div>
             </div>
         </div>
@@ -28,45 +36,14 @@
                 </div>
                 <div class="ass1-aside__edit-post-head">
                     <span style="display: block; width: 100%; margin-bottom: 10px;">Chọn danh mục</span>
-                    <label class="ass1-checkbox">
-                        <input type="radio" name="state-post" checked="checked">
+                    <label class="ass1-checkbox" v-for=" item in categories" :key="item.id">
+                        <input 
+                            v-model="category"
+                            :value="item.id"
+                            type="checkbox"
+                        >
                         <span></span>
-                        <p>Ảnh troll</p>
-                    </label>
-                    <label class="ass1-checkbox">
-                        <input type="radio" name="state-post">
-                        <span></span>
-                        <p>FapTV</p>
-                    </label>
-                    <label class="ass1-checkbox">
-                        <input type="radio" name="state-post" checked="checked">
-                        <span></span>
-                        <p>Ảnh troll</p>
-                    </label>
-                    <label class="ass1-checkbox">
-                        <input type="radio" name="state-post">
-                        <span></span>
-                        <p>FapTV</p>
-                    </label>
-                    <label class="ass1-checkbox">
-                        <input type="radio" name="state-post" checked="checked">
-                        <span></span>
-                        <p>Ảnh troll</p>
-                    </label>
-                    <label class="ass1-checkbox">
-                        <input type="radio" name="state-post">
-                        <span></span>
-                        <p>FapTV</p>
-                    </label>
-                    <label class="ass1-checkbox">
-                        <input type="radio" name="state-post" checked="checked">
-                        <span></span>
-                        <p>Ảnh troll</p>
-                    </label>
-                    <label class="ass1-checkbox">
-                        <input type="radio" name="state-post">
-                        <span></span>
-                        <p>FapTV</p>
+                        <p>{{ item.text }}</p>
                     </label>
                 </div>
                 <div class="ass1-aside__get-code">
@@ -80,15 +57,64 @@
                     <a href="" class="ass1-btn-social__google ass1-btn-social"><i class="fa fa-google-plus"
                             aria-hidden="true"></i></a>
                 </div>
-
             </aside>
         </div>
     </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
-    name: 'post-upload'
+    name: 'post-upload',
+    data() {
+        return {
+            obj_image: {
+                objFile: null,
+                base64URL: '',
+            },
+            url_image: '',
+            post_content: '',
+            category: [],
+        }
+    },
+    computed: {
+        ...mapState({
+            categories: state => state.post.categories,
+        }),
+        renderImage(){
+            if(this.url_image) return this.url_image
+            else if(this.obj_image.base64URL) return this.obj_image.base64URL
+
+            return '/dist/images/no_image_available.jpg';
+        }
+        
+    },
+    methods: {
+        uploadImage() {
+            let file = this.$refs.fileAvatar;
+            file.click();
+        },
+        handleUploadImage(e){
+            const fileImage = e.target.files[0];
+            // console.log('fileImage', fileImage);
+
+            let reader = new FileReader();
+            reader.addEventListener("load",() => {
+                    // convert image file to base64 string
+                    let previewUrl = reader.result;
+                    // console.log('previewUrl', previewUrl);
+                    this.obj_image.objFile = fileImage;
+                    this.obj_image.base64URL = previewUrl;
+                },
+                false,
+            );
+
+            if (fileImage) {
+                reader.readAsDataURL(fileImage);
+            }
+        }
+    },
 }
 </script>
 
