@@ -44,13 +44,30 @@ export default {
 
         try {
             var result = await axiosInstance.get(`/post/post.php?postid=${postid}`);            
+            // console.log('result', result);
             
             if(result.data && result.data.status == 200){
                 //Call API user by id
                 var userID = result.data.data.post.USERID;
-                var resultUser = await dispatch('getUserById',userID)
+                var promiseUser      = dispatch('getUserById',userID);
+                var promiseComment   = dispatch('getListCommentByPostId', postid);
+
+                let [resultUser, resultComment] = await Promise.all([promiseUser, promiseComment]);
+
+                let dataPostDetail = {
+                    ...result.data.data,
+                    comments: [],
+                }
+
+                if(resultComment.ok){   
+                    dataPostDetail.comments = resultComment.comments
+                }
+
+                // console.log('resultUser', resultUser);
+                // console.log('resultComment', resultComment);
+                
                 commit('SET_LOADING', false);
-                commit('SET_POST_DETAIL', result.data.data)
+                commit('SET_POST_DETAIL', dataPostDetail);
                 
                 return {
                     ok: true,
@@ -136,6 +153,32 @@ export default {
             }
         } catch (error) {
             commit('SET_LOADING', false);
+            return {
+                ok: false, 
+                error: error.message
+            }
+        }
+    },
+
+    async getListCommentByPostId({commit}, postId){
+
+        try {
+            var result = await axiosInstance.get(`/comment/comments.php?postid=${postId}`);
+
+            if(result.data && result.data.status === 200){
+
+                return {
+                    ok: true,
+                    comments: result.data.comments,
+                    error: null,
+                }
+            }else {
+                return {
+                    ok: false,
+                    error: result.message,
+                }
+            }
+        } catch (error) {
             return {
                 ok: false, 
                 error: error.message
